@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+<item
+    android:id="@+id/item_new_message"
+      android:title="New Message"
+      app:showAsAction="always"
+      android:icon="@drawable/ic_outline_mode_edit_24">
+
+</item>
+    <item
+        android:id="@+id/item_sign_out"
+        android:title="Sign out"
+        app:showAsAction="always"
+        android:icon="@drawable/ic_baseline_exit_to_app_24">
+
+    </item>
+    <item
+        android:id="@+id/item_more"
+        android:title="Sign out"
+        app:showAsAction="always"
+        android:icon="@drawable/ic_baseline_more_vert_24">
+        <menu>
+            <item
+                android:id="@+id/item_update_profile"
+                android:title="Update Profile"
+                />
+            <item
+                android:id="@+id/item_change_password"
+                android:title="Change Password"/>
+        </menu>
+
+    </item>
+
+</menu>

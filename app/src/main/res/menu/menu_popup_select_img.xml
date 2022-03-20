@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/itemGallery"
+        android:contentDescription="Open Gallery"
+        android:title="Gallery"
+        android:orderInCategory="2">
+
+    </item>
+    <item
+        android:id="@+id/itemCamera"
+        android:contentDescription="Open Camera"
+        android:title="Camera"
+        android:orderInCategory="1">
+    </item>
+    <item
+        android:id="@+id/itemImageDefault"
+        android:contentDescription="Choose Image from app"
+        android:title="App"
+        android:orderInCategory="3">
+    </item>
+
+
+</menu>
