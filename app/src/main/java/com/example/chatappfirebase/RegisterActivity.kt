@@ -38,7 +38,7 @@ import java.util.*
 import java.util.jar.Manifest
 
 class RegisterActivity : AppCompatActivity() {
-    val TAG = "register"
+    val TAG = this.javaClass.simpleName.toString()
 
     companion object {
         const val REQUEST_CODE_CAMERA = 123
@@ -48,28 +48,33 @@ class RegisterActivity : AppCompatActivity() {
 
     private lateinit var auth: FirebaseAuth
     private lateinit var storage: FirebaseStorage
-    private lateinit var database : DatabaseReference
+    private lateinit var database : FirebaseDatabase
     var selectPhotoUri: Uri? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
-        actionBar?.title = "Register"
-
+        supportActionBar?.title = "Register"
         // setup
         auth = Firebase.auth         // auth = FirebaseAuth.getInstance()
         storage = Firebase.storage
-        database =  Firebase.database.reference
+        database =  Firebase.database
+
         register_button.setOnClickListener {
             createUser(
                 email_edittext_register.text.toString(),
                 password_edittext_register.text.toString()
             )
+
         }
         account_imageview_register.setOnClickListener {
             popUpMenu(it)
         }
         account_textview_register.setOnClickListener {
             startActivity(Intent(this,LoginActivity::class.java))
+        }
+        using_phone_number_texview.setOnClickListener {
+            startActivity(Intent(this,RegisterPhoneNumberActivity::class.java))
         }
     }
 
@@ -159,50 +164,57 @@ class RegisterActivity : AppCompatActivity() {
         }
 
         private fun createUser(email: String, password: String) {
-            if (email.isEmpty() || password.isEmpty()) {
-                Toast.makeText(this, "Please input all field", Toast.LENGTH_SHORT).show()
+            if (email.isEmpty() || password.isEmpty() || selectPhotoUri == null) {
+                Toast.makeText(this, "Input All Text Field", Toast.LENGTH_LONG).show()
                 return
             }
+            progressbar_register.visibility = View.VISIBLE
             auth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this) { task ->
-                    if (!task.isSuccessful) return@addOnCompleteListener
-                    else {
-                        Snackbar.make(layout_register, "Register Successed!", Snackbar.LENGTH_SHORT)
+                    if (task.isSuccessful) {
+                        Snackbar.make(layout_register, "Register Successed! Wait Syncing....", Snackbar.LENGTH_SHORT)
                             .show()
                         uploadImageToFireBaseStore()
+                        Log.d(TAG,"Task Create User Success")
+
+                    }
+                    else {
+                        return@addOnCompleteListener
                     }
 
                 }.addOnFailureListener {
-                Log.d(TAG, "Failed to register" + it.message)
+                Log.d(TAG, "Task Create User Failure" + it.message)
             }
         }
 
         private fun uploadImageToFireBaseStore() {
             if (selectPhotoUri == null) return
-            val filename = UUID.randomUUID().toString()
-            val ref = storage.getReference("/images/$filename")
+            val filename = auth.currentUser?.uid
+            val ref = storage.getReference("images/").child(filename!!)
             ref.putFile(selectPhotoUri!!).addOnSuccessListener {
-                Log.d("Main", "Success +${it.metadata?.path}")
+                Log.d(TAG, "Put File Image To Storage Success +${it.metadata?.path}")
                 ref.downloadUrl.addOnSuccessListener {
-                    Log.d("Main", "file location: $it")
+                    Log.d(TAG, "Download Image From Stoarage: $it")
                     saveUsertoFireBaseDataBase(it.toString())
                     imgUrl = it
                 }.addOnFailureListener {
-                    Log.d("Main","Error ${it.message}")
+                    Log.d(TAG,"Put File Image To Storage Fauilure ${it.message}")
                 }
             }
         }
 
     private fun saveUsertoFireBaseDataBase(uri: String) {
-        val uid = auth.uid ?: ""
-        val user = User(uid,user_edittext_register.text.toString(),uri)
-        database.child("/users").child(uid).setValue(user).addOnSuccessListener {
-            Log.d("Main","save user to database")
+        val uid = auth.currentUser?.uid!!
+        val user = User(uid,user_edittext_register.text.toString(),uri,true)
+        database.getReference("users/").child(uid).setValue(user).addOnSuccessListener {
+            Log.d(TAG,"Save User To Database Success")
+            progressbar_register.visibility = View.GONE
+            Thread.sleep(1000)
             val intent = Intent(this@RegisterActivity,MessagesActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
             startActivity(intent)
         }.addOnFailureListener {
-            Log.d("Main","Erro ${it.message}")
+            Log.d(TAG,"Save User To Database Failure ${it.message}")
         }
     }
 }

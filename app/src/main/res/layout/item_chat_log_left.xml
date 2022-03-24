@@ -3,7 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:padding="10dp">
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/image_item_chat_log_left"
         android:layout_width="30dp"
@@ -22,7 +23,7 @@
         android:background="@color/white"
         app:cardCornerRadius="20dp"
         android:padding="7dp"
-        app:cardBackgroundColor="@color/teal_200"
+        app:cardBackgroundColor="@color/teal_700"
         android:layout_marginStart="10dp"
         app:layout_constraintStart_toEndOf="@id/image_item_chat_log_left"
         app:layout_constraintBottom_toBottomOf="parent"

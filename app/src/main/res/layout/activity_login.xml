@@ -44,6 +44,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingLeft="15dp"
+            android:textColor="@color/black"
+            android:inputType="textEmailAddress"
+            android:maxLines="1"
+            android:singleLine="true"
             android:background="@drawable/design_edt"
             />
 
@@ -73,9 +77,10 @@
             android:layout_height="wrap_content"
             android:background="@drawable/design_edt"
             android:cursorVisible="true"
-            android:maxLines="1"
             android:inputType="textPassword"
-            />
+            android:maxLines="1"
+            android:singleLine="true"
+            android:textColor="@color/black" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -101,6 +106,19 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/login_button"
+        android:textColor="@color/black"
         android:layout_marginTop="10dp"/>
+
+    <TextView
+        android:id="@+id/login_phonenumber_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:text="Login with Phone Number"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/register_textview_login"
+        android:layout_marginTop="10dp"/>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

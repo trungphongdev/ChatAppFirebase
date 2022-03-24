@@ -5,15 +5,20 @@
     android:id="@+id/item_new_message"
       android:title="New Message"
       app:showAsAction="always"
-      android:icon="@drawable/ic_outline_mode_edit_24">
+      android:icon="@drawable/ic_outline_mode_edit_24" />
 
-</item>
+    <item
+        android:id="@+id/item_search_view"
+        android:title="Search User"
+        android:icon="@drawable/ic_baseline_search_24"
+        app:showAsAction="always"
+        app:actionViewClass="androidx.appcompat.widget.SearchView"
+        />
     <item
         android:id="@+id/item_sign_out"
         android:title="Sign out"
         app:showAsAction="always"
         android:icon="@drawable/ic_baseline_exit_to_app_24">
-
     </item>
     <item
         android:id="@+id/item_more"

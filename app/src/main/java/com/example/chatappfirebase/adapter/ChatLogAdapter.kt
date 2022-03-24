@@ -25,7 +25,7 @@ import java.util.*
 class ChatLogAdapter(
     val context: Context,
     val list: List<ChatMessage>,
-    val recieverProfile: String?="",
+    val recieverProfile: String,
 
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     val ITEM_RECIEVE = 1

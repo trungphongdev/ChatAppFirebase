@@ -53,7 +53,6 @@ class NewMessageAdapter(val context: Context, val list: MutableList<User>) : Rec
     }
 
     override fun getItemCount(): Int {
-
        return  list.size
     }
 }
